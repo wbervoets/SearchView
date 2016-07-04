@@ -63,7 +63,7 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
     private static Typeface mTextFont = Typeface.DEFAULT;
     private static int mTextStyle = Typeface.NORMAL;
 
-    private static CharSequence mUserQuery = " ";
+    private static CharSequence mUserQuery = "";
 
     private final Context mContext;
 
