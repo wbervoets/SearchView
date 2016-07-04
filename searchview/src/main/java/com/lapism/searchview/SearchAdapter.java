@@ -21,10 +21,13 @@ import java.util.List;
 import java.util.Locale;
 
 
+// Wim Bervoets change: doesnt use mHistoryDatabase
+
+
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultViewHolder> implements Filterable {
 
-    @SuppressWarnings("WeakerAccess")
-    protected final SearchHistoryTable mHistoryDatabase;
+    //@SuppressWarnings("WeakerAccess")
+    //protected final SearchHistoryTable mHistoryDatabase;
     @SuppressWarnings("WeakerAccess")
     protected String key = "";
     @SuppressWarnings("WeakerAccess")
@@ -36,12 +39,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultView
 
     @SuppressWarnings("unused")
     public SearchAdapter(Context context) {// getContext();
-        mHistoryDatabase = new SearchHistoryTable(context);
+    //    mHistoryDatabase = new SearchHistoryTable(context);
     }
 
     public SearchAdapter(Context context, List<SearchItem> suggestionsList) {
         mSuggestionsList = suggestionsList;
-        mHistoryDatabase = new SearchHistoryTable(context);
+      //  mHistoryDatabase = new SearchHistoryTable(context);
     }
 
     @SuppressWarnings("unused")
@@ -71,9 +74,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultView
 
                     List<SearchItem> results = new ArrayList<>();
                     List<SearchItem> history = new ArrayList<>();
-                    if (!mHistoryDatabase.getAllItems().isEmpty()) {
-                        history.addAll(mHistoryDatabase.getAllItems());
-                    }
+                  //  if (!mHistoryDatabase.getAllItems().isEmpty()) {
+                    //    history.addAll(mHistoryDatabase.getAllItems());
+                   // }
                     history.addAll(mSuggestionsList);
 
                     for (SearchItem str : history) {
@@ -106,9 +109,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultView
                         }
                     }
                 } else {
-                    if (!mHistoryDatabase.getAllItems().isEmpty() && key.isEmpty()) {
-                        mResultList = mHistoryDatabase.getAllItems();
-                    }
+                    //if (!mHistoryDatabase.getAllItems().isEmpty() && key.isEmpty()) {
+                    //    mResultList = mHistoryDatabase.getAllItems();
+                   // }
                 }
 
                 notifyDataSetChanged();
@@ -198,6 +201,6 @@ editor.apply();*/
 // TODO ANALYSE
 // TODO file:///E:/Android/SearchView/sample/build/outputs/lint-results-debug.html
 // TODO file:///E:/Android/SearchView/searchview/build/outputs/lint-results-debug.html
-// TODO CoordinatorLayout.Behavior / SingleTask / VISIBLE DIVIDER BUG, ICON, CROSS TOOLBAR_ICON, FIX SAMPLE ON POST CREATE
+// TODO BEHAVIOR / SingleTask / DIVIDER BUG, ICON, CROSS TOOLBAR_ICON
 // TODO E/RecyclerView: No adapter attached; skipping layout when search
 // TODO W/IInputConnectionWrapper: getTextBeforeCursor on inactive InputConnection

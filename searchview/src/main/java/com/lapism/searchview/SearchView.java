@@ -436,8 +436,12 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
 
     @SuppressWarnings("unused")
     public void setNavigationIcon(Drawable drawable) {
-        if (mVersion != VERSION_TOOLBAR) {
-            mBackImageView.setImageDrawable(drawable);
+        if (drawable == null) {
+            mBackImageView.setVisibility(GONE);
+        } else {
+            if (mVersion != VERSION_TOOLBAR) {
+                mBackImageView.setImageDrawable(drawable);
+            }
         }
     }
 
@@ -623,6 +627,7 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
             SearchAnimator.fadeIn(mShadowView, mAnimationDuration);
         }
         showKeyboard();
+        showClearTextIcon();
         if (mVersion != VERSION_MENU_ITEM) {
             postDelayed(new Runnable() {
                 @Override
@@ -632,6 +637,8 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
                     }
                 }
             }, mAnimationDuration);
+
+
         }
     }
 
@@ -644,6 +651,8 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
         }
         hideSuggestions();
         hideKeyboard();
+        hideClearTextIcon();
+
         if (mVersion != VERSION_MENU_ITEM) {
             postDelayed(new Runnable() {
                 @Override
@@ -653,6 +662,13 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
                     }
                 }
             }, mAnimationDuration);
+        }
+    }
+
+    private void hideClearTextIcon() {
+        if (mUserQuery.length() == 0) {
+            mEmptyImageView.setVisibility(View.GONE);
+            checkVoiceStatus(true);
         }
     }
 
@@ -681,12 +697,20 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
         }
         mOldQueryText = newText.toString();
 
-        if (!TextUtils.isEmpty(newText)) { // TODO CROSS
+
+        if (!TextUtils.isEmpty(newText)) {  // TODO
+            //if (mVersion != VERSION_TOOLBAR_ICON) {
+            showClearTextIcon();
+            //}
+        } else {
+            hideClearTextIcon();
+        }
+    }
+
+    private void showClearTextIcon() {
+        if (mUserQuery.length() > 0) {
             mEmptyImageView.setVisibility(View.VISIBLE);
             checkVoiceStatus(false);
-        } else {
-            mEmptyImageView.setVisibility(View.GONE);
-            checkVoiceStatus(true);
         }
     }
 
@@ -718,7 +742,7 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
     private void showSuggestions() {
         if (mRecyclerView.getVisibility() == View.GONE) {
             if (mSearchAdapter != null || mAdapter != null) {
-                mDividerView.setVisibility(View.VISIBLE); // TODO DIVIDER BUG
+                mDividerView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 SearchAnimator.fadeIn(mRecyclerView, mAnimationDuration);
             }
@@ -816,6 +840,7 @@ public class SearchView extends FrameLayout implements View.OnClickListener {
             if (mEditText.length() > 0) {
                 mEditText.getText().clear();
             }
+            setHint("");
         } else if (v == mShadowView) {
             close(true);
         }
