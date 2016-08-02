@@ -79,9 +79,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ResultView
                    // }
                     history.addAll(mSuggestionsList);
 
+                    // First add strings that start with the key
                     for (SearchItem str : history) {
                         String string = str.get_text().toString().toLowerCase(Locale.getDefault());
-                        if (string.contains(key)) {
+                        if (string.startsWith(key)) {
+                            results.add(str);
+                        }
+                    }
+
+                    // Then add strings that contain the key (but no doubles)
+                    for (SearchItem str : history) {
+                        String string = str.get_text().toString().toLowerCase(Locale.getDefault());
+                        if (!string.startsWith(key) && string.contains(key)) {
                             results.add(str);
                         }
                     }
